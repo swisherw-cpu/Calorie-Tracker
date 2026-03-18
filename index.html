@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calorie Tracker</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Calorie Tracker</h1>
+    <div id="date-nav">
+      <button id="prev-day" aria-label="Previous day">&larr;</button>
+      <input type="date" id="current-date">
+      <button id="next-day" aria-label="Next day">&rarr;</button>
+      <button id="today-btn">Today</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Daily Summary -->
+    <section id="daily-summary">
+      <h2>Daily Summary</h2>
+      <div class="macro-bars">
+        <div class="macro-bar-group">
+          <div class="macro-label">
+            <span>Calories</span>
+            <span id="cal-count">0 / 2000</span>
+          </div>
+          <div class="progress-bar"><div id="cal-bar" class="progress-fill cal"></div></div>
+        </div>
+        <div class="macro-bar-group">
+          <div class="macro-label">
+            <span>Protein</span>
+            <span id="protein-count">0 / 150g</span>
+          </div>
+          <div class="progress-bar"><div id="protein-bar" class="progress-fill protein"></div></div>
+        </div>
+        <div class="macro-bar-group">
+          <div class="macro-label">
+            <span>Carbs</span>
+            <span id="carbs-count">0 / 250g</span>
+          </div>
+          <div class="progress-bar"><div id="carbs-bar" class="progress-fill carbs"></div></div>
+        </div>
+        <div class="macro-bar-group">
+          <div class="macro-label">
+            <span>Fat</span>
+            <span id="fat-count">0 / 65g</span>
+          </div>
+          <div class="progress-bar"><div id="fat-bar" class="progress-fill fat"></div></div>
+        </div>
+        <div class="macro-bar-group">
+          <div class="macro-label">
+            <span>Fiber</span>
+            <span id="fiber-count">0 / 30g</span>
+          </div>
+          <div class="progress-bar"><div id="fiber-bar" class="progress-fill fiber"></div></div>
+        </div>
+        <div class="macro-bar-group">
+          <div class="macro-label">
+            <span>Sugar</span>
+            <span id="sugar-count">0 / 50g</span>
+          </div>
+          <div class="progress-bar"><div id="sugar-bar" class="progress-fill sugar"></div></div>
+        </div>
+      </div>
+      <div class="macro-circles">
+        <div class="circle-stat">
+          <svg viewBox="0 0 36 36" class="circular-chart">
+            <path class="circle-bg" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
+            <path id="cal-circle" class="circle cal" stroke-dasharray="0, 100" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
+          </svg>
+          <div class="circle-text"><span id="cal-pct">0%</span><small>Calories</small></div>
+        </div>
+        <div class="circle-stat">
+          <svg viewBox="0 0 36 36" class="circular-chart">
+            <path class="circle-bg" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
+            <path id="protein-circle" class="circle protein" stroke-dasharray="0, 100" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
+          </svg>
+          <div class="circle-text"><span id="protein-pct">0%</span><small>Protein</small></div>
+        </div>
+        <div class="circle-stat">
+          <svg viewBox="0 0 36 36" class="circular-chart">
+            <path class="circle-bg" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
+            <path id="carbs-circle" class="circle carbs" stroke-dasharray="0, 100" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
+          </svg>
+          <div class="circle-text"><span id="carbs-pct">0%</span><small>Carbs</small></div>
+        </div>
+        <div class="circle-stat">
+          <svg viewBox="0 0 36 36" class="circular-chart">
+            <path class="circle-bg" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
+            <path id="fat-circle" class="circle fat" stroke-dasharray="0, 100" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
+          </svg>
+          <div class="circle-text"><span id="fat-pct">0%</span><small>Fat</small></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Food Search -->
+    <section id="food-search">
+      <h2>Add Food</h2>
+      <div class="search-container">
+        <div class="search-input-wrap">
+          <input type="text" id="search-input" placeholder="Search foods (e.g. chicken breast, banana, rice...)" autocomplete="off">
+          <button id="search-btn">Search</button>
+        </div>
+        <div id="search-results" class="search-results hidden"></div>
+      </div>
+
+      <!-- Meal selector -->
+      <div class="meal-selector">
+        <button class="meal-btn active" data-meal="breakfast">Breakfast</button>
+        <button class="meal-btn" data-meal="lunch">Lunch</button>
+        <button class="meal-btn" data-meal="dinner">Dinner</button>
+        <button class="meal-btn" data-meal="snacks">Snacks</button>
+      </div>
+    </section>
+
+    <!-- Quick Add Custom Food -->
+    <section id="custom-food">
+      <details>
+        <summary>Quick Add Custom Food</summary>
+        <form id="custom-food-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="custom-name">Food Name</label>
+              <input type="text" id="custom-name" required>
+            </div>
+            <div class="form-group">
+              <label for="custom-serving">Serving Size</label>
+              <input type="text" id="custom-serving" placeholder="e.g. 1 cup, 100g" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="custom-calories">Calories</label>
+              <input type="number" id="custom-calories" min="0" required>
+            </div>
+            <div class="form-group">
+              <label for="custom-protein">Protein (g)</label>
+              <input type="number" id="custom-protein" min="0" step="0.1" required>
+            </div>
+            <div class="form-group">
+              <label for="custom-carbs">Carbs (g)</label>
+              <input type="number" id="custom-carbs" min="0" step="0.1" required>
+            </div>
+            <div class="form-group">
+              <label for="custom-fat">Fat (g)</label>
+              <input type="number" id="custom-fat" min="0" step="0.1" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="custom-fiber">Fiber (g)</label>
+              <input type="number" id="custom-fiber" min="0" step="0.1" value="0">
+            </div>
+            <div class="form-group">
+              <label for="custom-sugar">Sugar (g)</label>
+              <input type="number" id="custom-sugar" min="0" step="0.1" value="0">
+            </div>
+            <div class="form-group">
+              <label for="custom-sodium">Sodium (mg)</label>
+              <input type="number" id="custom-sodium" min="0" step="1" value="0">
+            </div>
+            <div class="form-group">
+              <label for="custom-cholesterol">Cholesterol (mg)</label>
+              <input type="number" id="custom-cholesterol" min="0" step="1" value="0">
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">Add to Log</button>
+        </form>
+      </details>
+    </section>
+
+    <!-- Food Log -->
+    <section id="food-log">
+      <h2>Food Log</h2>
+      <div id="meal-sections">
+        <div class="meal-section" data-meal="breakfast">
+          <h3>Breakfast</h3>
+          <div class="meal-items"></div>
+          <div class="meal-total"></div>
+        </div>
+        <div class="meal-section" data-meal="lunch">
+          <h3>Lunch</h3>
+          <div class="meal-items"></div>
+          <div class="meal-total"></div>
+        </div>
+        <div class="meal-section" data-meal="dinner">
+          <h3>Dinner</h3>
+          <div class="meal-items"></div>
+          <div class="meal-total"></div>
+        </div>
+        <div class="meal-section" data-meal="snacks">
+          <h3>Snacks</h3>
+          <div class="meal-items"></div>
+          <div class="meal-total"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Goals Settings -->
+    <section id="goals-section">
+      <details>
+        <summary>Set Daily Goals</summary>
+        <form id="goals-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="goal-calories">Calories</label>
+              <input type="number" id="goal-calories" min="0" value="2000">
+            </div>
+            <div class="form-group">
+              <label for="goal-protein">Protein (g)</label>
+              <input type="number" id="goal-protein" min="0" value="150">
+            </div>
+            <div class="form-group">
+              <label for="goal-carbs">Carbs (g)</label>
+              <input type="number" id="goal-carbs" min="0" value="250">
+            </div>
+            <div class="form-group">
+              <label for="goal-fat">Fat (g)</label>
+              <input type="number" id="goal-fat" min="0" value="65">
+            </div>
+            <div class="form-group">
+              <label for="goal-fiber">Fiber (g)</label>
+              <input type="number" id="goal-fiber" min="0" value="30">
+            </div>
+            <div class="form-group">
+              <label for="goal-sugar">Sugar (g)</label>
+              <input type="number" id="goal-sugar" min="0" value="50">
+            </div>
+          </div>
+          <button type="submit" class="btn-primary">Save Goals</button>
+        </form>
+      </details>
+    </section>
+
+    <!-- Weekly Overview -->
+    <section id="weekly-overview">
+      <h2>7-Day Overview</h2>
+      <div id="weekly-chart" class="weekly-chart"></div>
+    </section>
+  </main>
+
+  <!-- Serving Size Modal -->
+  <div id="serving-modal" class="modal hidden">
+    <div class="modal-content">
+      <h3 id="modal-food-name">Food Name</h3>
+      <div class="modal-nutrition">
+        <span id="modal-cal"></span>
+        <span id="modal-protein"></span>
+        <span id="modal-carbs"></span>
+        <span id="modal-fat"></span>
+      </div>
+      <div class="form-group">
+        <label for="serving-qty">Number of servings</label>
+        <input type="number" id="serving-qty" value="1" min="0.25" step="0.25">
+      </div>
+      <div class="form-group">
+        <label for="modal-meal-select">Meal</label>
+        <select id="modal-meal-select">
+          <option value="breakfast">Breakfast</option>
+          <option value="lunch">Lunch</option>
+          <option value="dinner">Dinner</option>
+          <option value="snacks">Snacks</option>
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button id="modal-cancel" class="btn-secondary">Cancel</button>
+        <button id="modal-add" class="btn-primary">Add</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Data stored locally in your browser. No account needed.</p>
+  </footer>
+
+  <script src="food-database.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

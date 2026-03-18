@@ -3,279 +3,325 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calorie Tracker</title>
+  <title>FUEL - Calorie & Macro Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <header>
-    <h1>Calorie Tracker</h1>
-    <div id="date-nav">
-      <button id="prev-day" aria-label="Previous day">&larr;</button>
-      <input type="date" id="current-date">
-      <button id="next-day" aria-label="Next day">&rarr;</button>
-      <button id="today-btn">Today</button>
-    </div>
-  </header>
+  <!-- Ambient background blobs -->
+  <div class="ambient">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
 
-  <main>
-    <!-- Daily Summary -->
-    <section id="daily-summary">
-      <h2>Daily Summary</h2>
-      <div class="macro-bars">
-        <div class="macro-bar-group">
-          <div class="macro-label">
-            <span>Calories</span>
-            <span id="cal-count">0 / 2000</span>
-          </div>
-          <div class="progress-bar"><div id="cal-bar" class="progress-fill cal"></div></div>
-        </div>
-        <div class="macro-bar-group">
-          <div class="macro-label">
-            <span>Protein</span>
-            <span id="protein-count">0 / 150g</span>
-          </div>
-          <div class="progress-bar"><div id="protein-bar" class="progress-fill protein"></div></div>
-        </div>
-        <div class="macro-bar-group">
-          <div class="macro-label">
-            <span>Carbs</span>
-            <span id="carbs-count">0 / 250g</span>
-          </div>
-          <div class="progress-bar"><div id="carbs-bar" class="progress-fill carbs"></div></div>
-        </div>
-        <div class="macro-bar-group">
-          <div class="macro-label">
-            <span>Fat</span>
-            <span id="fat-count">0 / 65g</span>
-          </div>
-          <div class="progress-bar"><div id="fat-bar" class="progress-fill fat"></div></div>
-        </div>
-        <div class="macro-bar-group">
-          <div class="macro-label">
-            <span>Fiber</span>
-            <span id="fiber-count">0 / 30g</span>
-          </div>
-          <div class="progress-bar"><div id="fiber-bar" class="progress-fill fiber"></div></div>
-        </div>
-        <div class="macro-bar-group">
-          <div class="macro-label">
-            <span>Sugar</span>
-            <span id="sugar-count">0 / 50g</span>
-          </div>
-          <div class="progress-bar"><div id="sugar-bar" class="progress-fill sugar"></div></div>
-        </div>
-      </div>
-      <div class="macro-circles">
-        <div class="circle-stat">
-          <svg viewBox="0 0 36 36" class="circular-chart">
-            <path class="circle-bg" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
-            <path id="cal-circle" class="circle cal" stroke-dasharray="0, 100" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
+  <div id="app">
+    <!-- Top Bar -->
+    <header>
+      <div class="header-left">
+        <div class="logo">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <circle cx="14" cy="14" r="13" stroke="url(#logo-grad)" stroke-width="2"/>
+            <path d="M9 18V12l5-4 5 4v6" stroke="url(#logo-grad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <defs><linearGradient id="logo-grad" x1="0" y1="0" x2="28" y2="28"><stop stop-color="#818cf8"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs>
           </svg>
-          <div class="circle-text"><span id="cal-pct">0%</span><small>Calories</small></div>
-        </div>
-        <div class="circle-stat">
-          <svg viewBox="0 0 36 36" class="circular-chart">
-            <path class="circle-bg" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
-            <path id="protein-circle" class="circle protein" stroke-dasharray="0, 100" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
-          </svg>
-          <div class="circle-text"><span id="protein-pct">0%</span><small>Protein</small></div>
-        </div>
-        <div class="circle-stat">
-          <svg viewBox="0 0 36 36" class="circular-chart">
-            <path class="circle-bg" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
-            <path id="carbs-circle" class="circle carbs" stroke-dasharray="0, 100" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
-          </svg>
-          <div class="circle-text"><span id="carbs-pct">0%</span><small>Carbs</small></div>
-        </div>
-        <div class="circle-stat">
-          <svg viewBox="0 0 36 36" class="circular-chart">
-            <path class="circle-bg" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
-            <path id="fat-circle" class="circle fat" stroke-dasharray="0, 100" d="M18 2.0845a15.9155 15.9155 0 0 1 0 31.831a15.9155 15.9155 0 0 1 0-31.831"/>
-          </svg>
-          <div class="circle-text"><span id="fat-pct">0%</span><small>Fat</small></div>
+          <span class="logo-text">FUEL</span>
         </div>
       </div>
-    </section>
-
-    <!-- Food Search -->
-    <section id="food-search">
-      <h2>Add Food</h2>
-      <div class="search-container">
-        <div class="search-input-wrap">
-          <input type="text" id="search-input" placeholder="Search foods (e.g. chicken breast, banana, rice...)" autocomplete="off">
-          <button id="search-btn">Search</button>
-        </div>
-        <div id="search-results" class="search-results hidden"></div>
+      <div id="date-nav">
+        <button id="prev-day" aria-label="Previous day">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="date-display"></button>
+        <button id="next-day" aria-label="Next day">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 12l4-4-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <input type="date" id="current-date" class="hidden-date">
       </div>
-
-      <!-- Meal selector -->
-      <div class="meal-selector">
-        <button class="meal-btn active" data-meal="breakfast">Breakfast</button>
-        <button class="meal-btn" data-meal="lunch">Lunch</button>
-        <button class="meal-btn" data-meal="dinner">Dinner</button>
-        <button class="meal-btn" data-meal="snacks">Snacks</button>
+      <div class="header-right">
+        <button id="settings-toggle" class="icon-btn" title="Settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.32 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        </button>
       </div>
-    </section>
+    </header>
 
-    <!-- Quick Add Custom Food -->
-    <section id="custom-food">
-      <details>
-        <summary>Quick Add Custom Food</summary>
-        <form id="custom-food-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="custom-name">Food Name</label>
-              <input type="text" id="custom-name" required>
-            </div>
-            <div class="form-group">
-              <label for="custom-serving">Serving Size</label>
-              <input type="text" id="custom-serving" placeholder="e.g. 1 cup, 100g" required>
+    <main>
+      <!-- Hero: Calorie Ring -->
+      <section class="hero-card glass">
+        <div class="hero-ring-area">
+          <div class="ring-container" id="main-ring">
+            <canvas id="cal-ring" width="220" height="220"></canvas>
+            <div class="ring-center">
+              <span class="ring-value" id="cal-value">0</span>
+              <span class="ring-label">of <span id="cal-goal-label">2,000</span></span>
+              <span class="ring-sub">calories</span>
             </div>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="custom-calories">Calories</label>
-              <input type="number" id="custom-calories" min="0" required>
+          <div class="remaining-badge" id="remaining-badge">
+            <span id="remaining-text">2,000 remaining</span>
+          </div>
+        </div>
+        <div class="macro-pills">
+          <div class="macro-pill protein-pill">
+            <div class="pill-ring">
+              <canvas class="pill-canvas" data-macro="protein" width="52" height="52"></canvas>
+              <span class="pill-pct" id="protein-pct">0%</span>
             </div>
-            <div class="form-group">
-              <label for="custom-protein">Protein (g)</label>
-              <input type="number" id="custom-protein" min="0" step="0.1" required>
-            </div>
-            <div class="form-group">
-              <label for="custom-carbs">Carbs (g)</label>
-              <input type="number" id="custom-carbs" min="0" step="0.1" required>
-            </div>
-            <div class="form-group">
-              <label for="custom-fat">Fat (g)</label>
-              <input type="number" id="custom-fat" min="0" step="0.1" required>
+            <div class="pill-info">
+              <span class="pill-value"><span id="protein-current">0</span>g</span>
+              <span class="pill-label">Protein</span>
+              <span class="pill-goal">/ <span id="protein-goal-label">180</span>g</span>
             </div>
           </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="custom-fiber">Fiber (g)</label>
-              <input type="number" id="custom-fiber" min="0" step="0.1" value="0">
+          <div class="macro-pill carbs-pill">
+            <div class="pill-ring">
+              <canvas class="pill-canvas" data-macro="carbs" width="52" height="52"></canvas>
+              <span class="pill-pct" id="carbs-pct">0%</span>
             </div>
-            <div class="form-group">
-              <label for="custom-sugar">Sugar (g)</label>
-              <input type="number" id="custom-sugar" min="0" step="0.1" value="0">
-            </div>
-            <div class="form-group">
-              <label for="custom-sodium">Sodium (mg)</label>
-              <input type="number" id="custom-sodium" min="0" step="1" value="0">
-            </div>
-            <div class="form-group">
-              <label for="custom-cholesterol">Cholesterol (mg)</label>
-              <input type="number" id="custom-cholesterol" min="0" step="1" value="0">
+            <div class="pill-info">
+              <span class="pill-value"><span id="carbs-current">0</span>g</span>
+              <span class="pill-label">Carbs</span>
+              <span class="pill-goal">/ <span id="carbs-goal-label">200</span>g</span>
             </div>
           </div>
-          <button type="submit" class="btn-primary">Add to Log</button>
-        </form>
-      </details>
-    </section>
-
-    <!-- Food Log -->
-    <section id="food-log">
-      <h2>Food Log</h2>
-      <div id="meal-sections">
-        <div class="meal-section" data-meal="breakfast">
-          <h3>Breakfast</h3>
-          <div class="meal-items"></div>
-          <div class="meal-total"></div>
-        </div>
-        <div class="meal-section" data-meal="lunch">
-          <h3>Lunch</h3>
-          <div class="meal-items"></div>
-          <div class="meal-total"></div>
-        </div>
-        <div class="meal-section" data-meal="dinner">
-          <h3>Dinner</h3>
-          <div class="meal-items"></div>
-          <div class="meal-total"></div>
-        </div>
-        <div class="meal-section" data-meal="snacks">
-          <h3>Snacks</h3>
-          <div class="meal-items"></div>
-          <div class="meal-total"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Goals Settings -->
-    <section id="goals-section">
-      <details>
-        <summary>Set Daily Goals</summary>
-        <form id="goals-form">
-          <div class="form-row">
-            <div class="form-group">
-              <label for="goal-calories">Calories</label>
-              <input type="number" id="goal-calories" min="0" value="2000">
+          <div class="macro-pill fat-pill">
+            <div class="pill-ring">
+              <canvas class="pill-canvas" data-macro="fat" width="52" height="52"></canvas>
+              <span class="pill-pct" id="fat-pct">0%</span>
             </div>
-            <div class="form-group">
-              <label for="goal-protein">Protein (g)</label>
-              <input type="number" id="goal-protein" min="0" value="150">
-            </div>
-            <div class="form-group">
-              <label for="goal-carbs">Carbs (g)</label>
-              <input type="number" id="goal-carbs" min="0" value="250">
-            </div>
-            <div class="form-group">
-              <label for="goal-fat">Fat (g)</label>
-              <input type="number" id="goal-fat" min="0" value="65">
-            </div>
-            <div class="form-group">
-              <label for="goal-fiber">Fiber (g)</label>
-              <input type="number" id="goal-fiber" min="0" value="30">
-            </div>
-            <div class="form-group">
-              <label for="goal-sugar">Sugar (g)</label>
-              <input type="number" id="goal-sugar" min="0" value="50">
+            <div class="pill-info">
+              <span class="pill-value"><span id="fat-current">0</span>g</span>
+              <span class="pill-label">Fat</span>
+              <span class="pill-goal">/ <span id="fat-goal-label">55</span>g</span>
             </div>
           </div>
-          <button type="submit" class="btn-primary">Save Goals</button>
-        </form>
-      </details>
-    </section>
+          <div class="macro-pill fiber-pill">
+            <div class="pill-ring">
+              <canvas class="pill-canvas" data-macro="fiber" width="52" height="52"></canvas>
+              <span class="pill-pct" id="fiber-pct">0%</span>
+            </div>
+            <div class="pill-info">
+              <span class="pill-value"><span id="fiber-current">0</span>g</span>
+              <span class="pill-label">Fiber</span>
+              <span class="pill-goal">/ <span id="fiber-goal-label">30</span>g</span>
+            </div>
+          </div>
+          <div class="macro-pill sugar-pill">
+            <div class="pill-ring">
+              <canvas class="pill-canvas" data-macro="sugar" width="52" height="52"></canvas>
+              <span class="pill-pct" id="sugar-pct">0%</span>
+            </div>
+            <div class="pill-info">
+              <span class="pill-value"><span id="sugar-current">0</span>g</span>
+              <span class="pill-label">Sugar</span>
+              <span class="pill-goal">/ <span id="sugar-goal-label">50</span>g</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    <!-- Weekly Overview -->
-    <section id="weekly-overview">
-      <h2>7-Day Overview</h2>
-      <div id="weekly-chart" class="weekly-chart"></div>
-    </section>
-  </main>
+      <!-- Food Search -->
+      <section class="search-section glass">
+        <div class="search-header">
+          <h2>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            Add Food
+          </h2>
+          <div class="meal-tabs">
+            <button class="meal-tab active" data-meal="breakfast">Breakfast</button>
+            <button class="meal-tab" data-meal="lunch">Lunch</button>
+            <button class="meal-tab" data-meal="dinner">Dinner</button>
+            <button class="meal-tab" data-meal="snacks">Snacks</button>
+          </div>
+        </div>
+        <div class="search-container">
+          <div class="search-box">
+            <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" id="search-input" placeholder="Search chicken, rice, banana..." autocomplete="off">
+            <kbd class="search-hint">Type to search</kbd>
+          </div>
+          <div id="search-results" class="search-results hidden"></div>
+        </div>
+        <button id="custom-toggle" class="custom-toggle-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Quick Add Custom Food
+        </button>
+        <div id="custom-form-area" class="custom-form-area hidden">
+          <form id="custom-food-form">
+            <div class="cf-grid">
+              <div class="cf-field cf-wide">
+                <label>Food Name</label>
+                <input type="text" id="custom-name" required placeholder="e.g. Homemade Smoothie">
+              </div>
+              <div class="cf-field">
+                <label>Serving</label>
+                <input type="text" id="custom-serving" required placeholder="1 cup, 100g">
+              </div>
+              <div class="cf-field">
+                <label>Calories</label>
+                <input type="number" id="custom-calories" min="0" required placeholder="0">
+              </div>
+              <div class="cf-field">
+                <label>Protein (g)</label>
+                <input type="number" id="custom-protein" min="0" step="0.1" required placeholder="0">
+              </div>
+              <div class="cf-field">
+                <label>Carbs (g)</label>
+                <input type="number" id="custom-carbs" min="0" step="0.1" required placeholder="0">
+              </div>
+              <div class="cf-field">
+                <label>Fat (g)</label>
+                <input type="number" id="custom-fat" min="0" step="0.1" required placeholder="0">
+              </div>
+              <div class="cf-field">
+                <label>Fiber (g)</label>
+                <input type="number" id="custom-fiber" min="0" step="0.1" value="0">
+              </div>
+              <div class="cf-field">
+                <label>Sugar (g)</label>
+                <input type="number" id="custom-sugar" min="0" step="0.1" value="0">
+              </div>
+            </div>
+            <button type="submit" class="btn-glow">Add to Log</button>
+          </form>
+        </div>
+      </section>
 
-  <!-- Serving Size Modal -->
-  <div id="serving-modal" class="modal hidden">
-    <div class="modal-content">
-      <h3 id="modal-food-name">Food Name</h3>
-      <div class="modal-nutrition">
-        <span id="modal-cal"></span>
-        <span id="modal-protein"></span>
-        <span id="modal-carbs"></span>
-        <span id="modal-fat"></span>
+      <!-- Food Log -->
+      <section class="log-section glass">
+        <h2>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+          Today's Log
+        </h2>
+        <div id="meal-sections">
+          <div class="meal-block" data-meal="breakfast">
+            <div class="meal-block-header">
+              <span class="meal-icon">&#9728;</span>
+              <span class="meal-name">Breakfast</span>
+              <span class="meal-cal-total" id="breakfast-cal-total"></span>
+            </div>
+            <div class="meal-items"></div>
+          </div>
+          <div class="meal-block" data-meal="lunch">
+            <div class="meal-block-header">
+              <span class="meal-icon">&#9788;</span>
+              <span class="meal-name">Lunch</span>
+              <span class="meal-cal-total" id="lunch-cal-total"></span>
+            </div>
+            <div class="meal-items"></div>
+          </div>
+          <div class="meal-block" data-meal="dinner">
+            <div class="meal-block-header">
+              <span class="meal-icon">&#9790;</span>
+              <span class="meal-name">Dinner</span>
+              <span class="meal-cal-total" id="dinner-cal-total"></span>
+            </div>
+            <div class="meal-items"></div>
+          </div>
+          <div class="meal-block" data-meal="snacks">
+            <div class="meal-block-header">
+              <span class="meal-icon">&#10038;</span>
+              <span class="meal-name">Snacks</span>
+              <span class="meal-cal-total" id="snacks-cal-total"></span>
+            </div>
+            <div class="meal-items"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Weekly Overview -->
+      <section class="weekly-section glass">
+        <h2>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          This Week
+        </h2>
+        <div id="weekly-chart" class="weekly-chart"></div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Serving Modal -->
+  <div id="serving-modal" class="modal-overlay hidden">
+    <div class="modal glass">
+      <div class="modal-header">
+        <h3 id="modal-food-name">Food Name</h3>
+        <button id="modal-close" class="modal-close-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
       </div>
-      <div class="form-group">
-        <label for="serving-qty">Number of servings</label>
-        <input type="number" id="serving-qty" value="1" min="0.25" step="0.25">
+      <div class="modal-macros">
+        <div class="modal-macro cal-bg"><span id="modal-cal" class="mm-val">0</span><span class="mm-label">Cal</span></div>
+        <div class="modal-macro pro-bg"><span id="modal-protein" class="mm-val">0</span><span class="mm-label">Protein</span></div>
+        <div class="modal-macro carb-bg"><span id="modal-carbs" class="mm-val">0</span><span class="mm-label">Carbs</span></div>
+        <div class="modal-macro fat-bg"><span id="modal-fat" class="mm-val">0</span><span class="mm-label">Fat</span></div>
       </div>
-      <div class="form-group">
-        <label for="modal-meal-select">Meal</label>
-        <select id="modal-meal-select">
-          <option value="breakfast">Breakfast</option>
-          <option value="lunch">Lunch</option>
-          <option value="dinner">Dinner</option>
-          <option value="snacks">Snacks</option>
-        </select>
+      <div class="modal-serving-label" id="modal-serving-desc">per serving</div>
+      <div class="modal-fields">
+        <div class="modal-field">
+          <label>Servings</label>
+          <div class="qty-control">
+            <button type="button" id="qty-minus" class="qty-btn">-</button>
+            <input type="number" id="serving-qty" value="1" min="0.25" step="0.25">
+            <button type="button" id="qty-plus" class="qty-btn">+</button>
+          </div>
+        </div>
+        <div class="modal-field">
+          <label>Add to</label>
+          <select id="modal-meal-select">
+            <option value="breakfast">Breakfast</option>
+            <option value="lunch">Lunch</option>
+            <option value="dinner">Dinner</option>
+            <option value="snacks">Snacks</option>
+          </select>
+        </div>
       </div>
-      <div class="modal-actions">
-        <button id="modal-cancel" class="btn-secondary">Cancel</button>
-        <button id="modal-add" class="btn-primary">Add</button>
-      </div>
+      <button id="modal-add" class="btn-glow btn-full">Add to Log</button>
     </div>
   </div>
 
-  <footer>
-    <p>Data stored locally in your browser. No account needed.</p>
-  </footer>
+  <!-- Settings Panel -->
+  <div id="settings-panel" class="settings-panel hidden">
+    <div class="settings-inner glass">
+      <div class="settings-header">
+        <h3>Daily Goals</h3>
+        <button id="settings-close" class="modal-close-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <form id="goals-form" class="goals-grid">
+        <div class="goal-field">
+          <label>Calories</label>
+          <input type="number" id="goal-calories" min="0" value="2000">
+        </div>
+        <div class="goal-field">
+          <label>Protein (g)</label>
+          <input type="number" id="goal-protein" min="0" value="180">
+        </div>
+        <div class="goal-field">
+          <label>Carbs (g)</label>
+          <input type="number" id="goal-carbs" min="0" value="200">
+        </div>
+        <div class="goal-field">
+          <label>Fat (g)</label>
+          <input type="number" id="goal-fat" min="0" value="55">
+        </div>
+        <div class="goal-field">
+          <label>Fiber (g)</label>
+          <input type="number" id="goal-fiber" min="0" value="30">
+        </div>
+        <div class="goal-field">
+          <label>Sugar (g)</label>
+          <input type="number" id="goal-sugar" min="0" value="50">
+        </div>
+        <button type="submit" class="btn-glow btn-full">Save Goals</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast"></div>
 
   <script src="food-database.js"></script>
   <script src="app.js"></script>
